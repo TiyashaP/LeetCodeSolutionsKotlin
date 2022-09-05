@@ -2,27 +2,26 @@ class Solution {
     public void rotate(int[][] matrix) {
         int rows=matrix.length;
         int columns=matrix[0].length;
-        int startRow=0;
         int startColumn=0;
+        int startRow=0;
         int endRow=rows-1;
         int endColumn=columns-1;
-        while(startRow<endRow && startColumn<endColumn){
-        for(int i=0;i<=endColumn-startColumn-1;i++)
+        while(startColumn<endColumn && startRow<endRow)
         {
-           int temp=matrix[startRow][startColumn+i];
-            matrix[startRow][startColumn+i]=matrix[endRow-i][startColumn];
-            matrix[endRow-i][startColumn]=matrix[endRow][endColumn-i];
-            matrix[endRow][endColumn-i]= matrix[startRow+i][endColumn];
-            matrix[startRow+i][endColumn]=temp;
-            
+            for(int offset=0;offset<endColumn-startColumn;offset++)
+            {
+                int temp=matrix[startRow][startColumn+offset];
+                matrix[startRow][startColumn+offset]=matrix[endRow-offset][startColumn];
+                matrix[endRow-offset][startColumn]=matrix[endRow][endColumn-offset];
+                matrix[endRow][endColumn-offset]=matrix[startRow+offset][endColumn];
+                matrix[startRow+offset][endColumn]=temp;
+                
+            }
+            startColumn++;
+            endColumn--;
+            startRow++;
+            endRow--;
         }
-        startColumn++;
-        startRow++;
-        endRow--;
-        endColumn--;
-        }
-        
-        
         
     }
 }

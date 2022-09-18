@@ -1,28 +1,26 @@
-import java.util.* ;
-import java.io.*; 
-import java.util.stream.*;
-
-
 class Solution {
-    public int longestConsecutive(int[] arr) {
-        if(arr.length==0)
-            return 0;
-       Arrays.sort(arr);
-        int maxLcs=1;
-        int lcs=1;
-        for (int i=1;i<arr.length;i++) {
-            if (arr[i] != arr[i - 1]) {
-                if (arr[i] == arr[i - 1] + 1) {
-                    lcs++;
-                } else {
-                    maxLcs = Math.max(lcs, maxLcs);
-                    lcs = 1;
-                }
-
+    public int longestConsecutive(int[] nums) {
+        
+        Set<Integer> numSet=Arrays.stream(nums).boxed().collect(Collectors.toSet());
+        int maxCount=0;
+        
+        for(int i=0;i<nums.length;i++)
+        {
+            int count=0;
+            if(!numSet.contains(nums[i]-1))
+            { count++;
+             int startNumber=nums[i]+1;
+             while(numSet.contains(startNumber))
+             {
+                 startNumber++;
+                 count++;
+             }
+             if(count>maxCount)
+                 maxCount=count;
             }
+            
         }
-        return Math.max(lcs,maxLcs);
-
+        return maxCount;
         
     }
 }

@@ -1,28 +1,41 @@
 class FooBar {
     private int n;
-    Semaphore fooSemaphore;
-    Semaphore barSemaphore;
+    private boolean flag;
+
     public FooBar(int n) {
         this.n = n;
-        this.fooSemaphore=new Semaphore(1);
-        this.barSemaphore=new Semaphore(0);
+        flag=true;
     }
 
     public void foo(Runnable printFoo) throws InterruptedException {
         
         for (int i = 0; i < n; i++) {
-            fooSemaphore.acquire();
+            
+        	// printFoo.run() outputs "foo". Do not change or remove this line.
+            synchronized(this)
+            {
+                while(!flag)
+                    this.wait();
         	printFoo.run();
-            barSemaphore.release();
+            flag=false;    
+            this.notify();    
+            }
         }
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
         
         for (int i = 0; i < n; i++) {
-            barSemaphore.acquire();
+            
+            // printBar.run() outputs "bar". Do not change or remove this line.
+            synchronized(this)
+            {
+                while(flag)
+                  this.wait();    
         	printBar.run();
-            fooSemaphore.release();
+            flag=true;
+            this.notify();    
+            }
         }
     }
 }

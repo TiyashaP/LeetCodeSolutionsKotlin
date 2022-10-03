@@ -1,97 +1,74 @@
 class FizzBuzz {
     private int n;
-    private int i;
-    private ReentrantLock lock;
+    private ReentrantLock reentrantLock;
+     private int count;
 
     public FizzBuzz(int n) {
         this.n = n;
-        this.i=1;
-        lock=new ReentrantLock(true);
+        this.reentrantLock=new ReentrantLock();
+        this.count=1;
     }
 
     // printFizz.run() outputs "fizz".
     public void fizz(Runnable printFizz) throws InterruptedException {
-         while(true)
+       while(count<=n)
         {
-    lock.lock();
-       
-        if(i>n)
-        {
-            lock.unlock();
-            break;
-        }
-            if(i%3==0 && i%5!=0)
+           reentrantLock.lock();
+            if(count%3==0 && count%5!=0 && count<=n)
             {
-               printFizz.run();
-               i++;
-                
+             printFizz.run();
+                count++;
+            
             }
-       lock.unlock(); 
+            reentrantLock.unlock();
+            
         }
-       
+        
     }
 
     // printBuzz.run() outputs "buzz".
     public void buzz(Runnable printBuzz) throws InterruptedException {
-         while(true)
+         while(count<=n)
         {
-     lock.lock();
-       
-        if(i>n)
-        {
-            lock.unlock();
-            break;
-        }
-            if(i%3!=0 && i%5==0)
+             reentrantLock.lock();
+            if(count%3!=0 && count%5==0 && count<=n)
             {
-               printBuzz.run();
-                i++;
-                
+             printBuzz.run();
+                count++;
+            
             }
-       lock.unlock(); 
+              reentrantLock.unlock();
+            
         }
-       
+        
     }
 
     // printFizzBuzz.run() outputs "fizzbuzz".
     public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
-        while(true)
-        {
-         lock.lock();
-        
-        if(i>n)
-        {
-            lock.unlock();
-            break;
-        }
-            if(i%3==0 && i%5==0)
+          while(count<=n)
+        {reentrantLock.lock();
+            if(count%15==0 && count<=n)
             {
-               printFizzBuzz.run();
-               i++; 
+             printFizzBuzz.run();
+             count++;
             }
-          lock.unlock(); 
+            reentrantLock.unlock();
         }
-       
+        
     }
 
     // printNumber.accept(x) outputs "x", where x is an integer.
     public void number(IntConsumer printNumber) throws InterruptedException {
-        while(true)
-        {
-         lock.lock();
-        
-        if(i>n)
-        {
-            lock.unlock();
-            break;
-        }
-            if(i%3!=0 && i%5!=0)
+          while(count<=n)
+        {reentrantLock.lock();
+            if(count%3!=0 && count%5!=0 && count<=n)
             {
-               printNumber.accept(i);
-               i++;
+             printNumber.accept(count);
+            count++;
             }
-        lock.unlock(); 
+          reentrantLock.unlock();
+            
         }
-      
+        
     }
 }

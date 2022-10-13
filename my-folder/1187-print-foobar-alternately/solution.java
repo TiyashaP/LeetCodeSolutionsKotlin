@@ -1,10 +1,12 @@
 class FooBar {
     private int n;
-    private boolean flag;
+    private Semaphore foo;
+    private Semaphore bar;
 
     public FooBar(int n) {
         this.n = n;
-        flag=true;
+        this.foo=new Semaphore(1);
+        this.bar=new Semaphore(0);
     }
 
     public void foo(Runnable printFoo) throws InterruptedException {
@@ -12,14 +14,9 @@ class FooBar {
         for (int i = 0; i < n; i++) {
             
         	// printFoo.run() outputs "foo". Do not change or remove this line.
-            synchronized(this)
-            {
-                while(!flag)
-                    this.wait();
+            foo.acquire();
         	printFoo.run();
-            flag=false;    
-            this.notify();    
-            }
+            bar.release();
         }
     }
 
@@ -28,14 +25,9 @@ class FooBar {
         for (int i = 0; i < n; i++) {
             
             // printBar.run() outputs "bar". Do not change or remove this line.
-            synchronized(this)
-            {
-                while(flag)
-                  this.wait();    
+            bar.acquire();
         	printBar.run();
-            flag=true;
-            this.notify();    
-            }
+            foo.release();
         }
     }
 }

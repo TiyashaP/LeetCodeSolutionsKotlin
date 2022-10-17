@@ -1,44 +1,25 @@
 class Solution {
-    public static int lengthOfLongestSubstring(String s) {
-	int start=0;
-	int[] charArrNo=new int[256];
-	int maxLength=0;
-	int i=0;
-	if(null==s)
-		return 0;
-	else if(s.length()==1)
-		return 1;
-	else{
-	while(i<s.length())
-	{
-		charArrNo[s.charAt(i)]++;
-		
-		if(charArrNo[s.charAt(i)]>1)
-		{
-			int lengthOfString=i-start;
-			if(lengthOfString>maxLength)
-				maxLength=lengthOfString;
-			start=resetcount(charArrNo,start,i,s);
-			
-		}
-		i++;
-	}
-	if(i-start>maxLength)
-		maxLength=i-start;
-	}
+    public int lengthOfLongestSubstring(String s) {
+       Queue<Character> characterQueue=new ArrayDeque<>();
+        int count=0;
+        int maxCount=0;
+        for (Character c:
+             s.toCharArray()) {
+            if(characterQueue.contains(c))
+            {
+                count=characterQueue.size();
+                if(count>maxCount)
+                    maxCount=count;
+                Character remove = characterQueue.remove();
+                while(remove!=c) {
+                    remove=characterQueue.remove();
+                }
+            }
+            characterQueue.add(c);
+        }
+        if(maxCount>characterQueue.size())
+           return maxCount;
+        return characterQueue.size();
         
-      return  maxLength;
     }
-
-private static int resetcount(int[] charArrNo,int start, int i,String s) {
-		while(charArrNo[s.charAt(i)]>1)
-			{
-			charArrNo[s.charAt(start)]--;
-			start++;
-			}
-	return start;
-	
-}
-
-
 }

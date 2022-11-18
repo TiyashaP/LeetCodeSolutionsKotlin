@@ -1,27 +1,28 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-    List<List<Integer>> list = new ArrayList<>();
-    Arrays.sort(candidates);
-
-        combinationSumRec(candidates,target,0,list,new ArrayList<Integer>());
-        return list;
+        List<List<Integer>> all=new ArrayList<>();
+        combinationSumRec(0,candidates,target,new ArrayList<>(),all);
+        return all;
     }
     
-    public void combinationSumRec(int[] candidates,int target,int index,List<List<Integer>> dsList,List<Integer> ds) {
-        if(index==candidates.length){
-        if(target==0)
-            dsList.add(new ArrayList(ds));
-            return;
-        }
-        
-    
-        if(candidates[index]<=target)
-        {
-            ds.add(candidates[index]);
-            combinationSumRec(candidates,target-candidates[index],index,dsList,ds);
-            ds.remove(ds.size()-1);
-        }
-         combinationSumRec(candidates,target,index+1,dsList,ds);
-        
+     public List<List<Integer>> combinationSumRec(int index,int[] candidates, int target,List<Integer> ds,List<List<Integer>> all) {
+         if(index==candidates.length)
+         {
+             if(target==0)
+             {
+                 all.add(new ArrayList(ds));
+             }
+             return all;
+                 
+         }
+         if(target>=candidates[index])
+         {
+             ds.add(candidates[index]);
+             combinationSumRec(index,candidates,target-candidates[index],ds,all);
+             ds.remove(ds.size()-1);
+         }
+         
+         return combinationSumRec(index+1,candidates,target,ds,all);
+         
     }
 }

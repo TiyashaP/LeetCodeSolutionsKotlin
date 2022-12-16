@@ -1,11 +1,20 @@
 class Solution {
-   public int climbStairs(int n) {
-        Map<Integer,Integer> climbStairMap=new HashMap<>();
-        climbStairMap.put(1,1);
-        climbStairMap.put(0,0);
-        climbStairMap.put(2,2);
-        IntStream.iterate(3,i->i<=n,i->i+1)
-                .forEach(elem->climbStairMap.computeIfAbsent(elem,ignore->climbStairMap.get(elem-1)+climbStairMap.get(elem-2)));
-       return climbStairMap.get(n);
+    public int climbStairs(int n) {
+        
+         int a=1,b=2,res=0;
+        for(int i=1;i<=n;i++)
+        {
+            if(i==1 || i==2)
+                res=i;
+            else{
+                res=a+b;
+                a=b;
+                b=res;
+            }
+        }
+        return res;
+        
+        
     }
 }
+    

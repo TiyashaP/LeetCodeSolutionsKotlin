@@ -4,21 +4,16 @@ class Solution {
         val frequencyArr=IntArray(26)
         var maxFrequency=0
         var maxWindowLength=0
-        var windowLength=0;
-        for(i in s.indices)
+        for(right in s.indices)
         {
-            windowLength++
-            frequencyArr[s[i]-'A']++
-            maxFrequency=maxOf(frequencyArr[s[i]-'A'],maxFrequency)
-            if(windowLength-maxFrequency<=k)
+            frequencyArr[s[right]-'A']++
+            maxFrequency=maxOf(frequencyArr[s[right]-'A'],maxFrequency)
+            while((right-left+1)-maxFrequency>k)
             {
-                maxWindowLength=maxOf(windowLength,maxWindowLength)
-            }
-            else{
                 frequencyArr[s[left]-'A']--
                 left++
-                windowLength--
             }
+            maxWindowLength=maxOf(right-left+1,maxWindowLength)
         }
         return maxWindowLength;
     }
